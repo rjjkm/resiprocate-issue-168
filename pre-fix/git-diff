@@ -1,0 +1,27 @@
+diff --git a/resip/dum/test/BasicCall.cxx b/resip/dum/test/BasicCall.cxx
+index a70912d7f..8a5157270 100644
+--- a/resip/dum/test/BasicCall.cxx
++++ b/resip/dum/test/BasicCall.cxx
+@@ -555,7 +555,7 @@ main (int argc, char** argv)
+ {
+    //Log::initialize(Log::Cout, resip::Log::Warning, argv[0]);
+    //Log::initialize(Log::Cout, resip::Log::Debug, argv[0]);
+-   Log::initialize(Log::Cout, resip::Log::Info, argv[0]);
++   Log::initialize(Log::Cout, resip::Log::Stack, argv[0]);
+    //Log::initialize(Log::Cout, resip::Log::Debug, argv[0]);
+
+ #if defined(WIN32) && defined(_DEBUG) && defined(LEAK_CHECK)
+@@ -660,6 +660,13 @@ main (int argc, char** argv)
+    dumUas->getMasterProfile()->addSupportedMimeType(MESSAGE, PlainContents::getStaticType());
+    dumUas->getMasterProfile()->setDefaultRegistrationTime(70);
+
++   // Issue 168 test (begin)
++   resip::Uri hostPort;
++   hostPort.host() = "192.168.2.40";
++   hostPort.port() = 12010;
++   dumUas->getMasterProfile()->setOverrideHostAndPort(hostPort);
++   // Issue 168 test (end)
++
+    time_t bHangupAt = 0;
+    TestUas uas(&bHangupAt);
+    dumUas->setClientRegistrationHandler(&uas);
